@@ -2,6 +2,7 @@ import { createContext, ReactNode, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
 import { Product, Stock } from '../types';
+import { useProducts } from './useProducts';
 
 interface CartProviderProps {
   children: ReactNode;
@@ -22,6 +23,7 @@ interface CartContextData {
 const CartContext = createContext<CartContextData>({} as CartContextData);
 
 export function CartProvider({ children }: CartProviderProps): JSX.Element {
+  const products = useProducts()
   const [cart, setCart] = useState<Product[]>(() => {
     const storagedCart = localStorage.getItem('@RocketShoes:cart')
 
@@ -34,9 +36,27 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
   const addProduct = async (productId: number) => {
     try {
-      // TODO
+      const productExists = products.find(productItem => productItem.id === productId)
+
+      if (!productExists) {
+        return 
+      }
+
+      const product = products.find(productItem => productItem.id === productExists.id)
+      const productAmount = cart.filter(cartItem => cartItem.id === productId)
+      
+      if (!product) {
+        return 
+      }
+
+      const formattedProduct = {
+        ...product,
+        amount: productAmount.length
+      }
+
+      setCart([...cart, formattedProduct])
     } catch {
-      // TODO
+      toast.error('Erro na alteração de quantidade do produto');
     }
   };
 

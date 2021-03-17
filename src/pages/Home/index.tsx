@@ -2,6 +2,8 @@ import { MdAddShoppingCart } from 'react-icons/md';
 
 import { ProductList } from './styles';
 import { useProducts } from '../../hooks/useProducts';
+import { useCart } from '../../hooks/useCart';
+import { useEffect, useState } from 'react';
 
 interface CartItemsAmount {
   [key: number]: number;
@@ -9,14 +11,21 @@ interface CartItemsAmount {
 
 const Home = (): JSX.Element => {
   const products = useProducts()
-  // const { addProduct, cart } = useCart();
+  const { addProduct, cart } = useCart();
 
-  // const cartItemsAmount = cart.reduce((sumAmount, product) => {
-  //   // TODO
-  // }, {} as CartItemsAmount)
+  const [cartItemsAmount, setCartItemsAmount] = useState({} as CartItemsAmount)
+
+  useEffect(() => {
+    setCartItemsAmount(cart.reduce((sumAmount, { id }) => {
+      return {
+        ...sumAmount,
+        [id]: sumAmount[id] ? sumAmount[id] + 1 : 1
+      }
+    }, {} as CartItemsAmount))
+  }, [cart])
 
   function handleAddProduct(id: number) {
-    console.log('add product with id ' + id)
+    addProduct(id)
   }
 
   return (
@@ -33,7 +42,7 @@ const Home = (): JSX.Element => {
           >
             <div data-testid="cart-product-quantity">
               <MdAddShoppingCart size={16} color="#FFF" />
-              {/* {cartItemsAmount[product.id] || 0} */} 2
+              {cartItemsAmount[product.id] || 0}
             </div>
 
             <span>ADICIONAR AO CARRINHO</span>
