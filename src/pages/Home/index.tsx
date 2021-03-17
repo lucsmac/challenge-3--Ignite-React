@@ -1,49 +1,19 @@
-import React, { useState, useEffect } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
 
 import { ProductList } from './styles';
-import { api } from '../../services/api';
-import { formatPrice } from '../../util/format';
-import { useCart } from '../../hooks/useCart';
-
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-}
-
-interface ProductFormatted extends Product {
-  priceFormatted: string;
-}
+import { useProducts } from '../../hooks/useProducts';
 
 interface CartItemsAmount {
   [key: number]: number;
 }
 
 const Home = (): JSX.Element => {
-  const [products, setProducts] = useState<ProductFormatted[]>([]);
+  const products = useProducts()
   // const { addProduct, cart } = useCart();
 
   // const cartItemsAmount = cart.reduce((sumAmount, product) => {
   //   // TODO
   // }, {} as CartItemsAmount)
-
-  useEffect(() => {
-    async function loadProducts() {
-      const { data } = await api.get('products')
-      const productsFormatted = data.map((product: Product) => {
-        const productFormatted = {
-          ...product,
-          priceFormatted: formatPrice(product.price)
-        }
-        return productFormatted
-      })
-      setProducts(productsFormatted)
-    }
-
-    loadProducts();
-  }, []);
 
   function handleAddProduct(id: number) {
     console.log('add product with id ' + id)
