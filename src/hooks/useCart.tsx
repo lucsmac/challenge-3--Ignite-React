@@ -95,6 +95,10 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     amount,
   }: UpdateProductAmount) => {
     try {
+      if (amount <= 0) {
+        throw new Error('Erro na alteração de quantidade do produto')
+      }
+
       if (amount > stock[productId].amount) {
         throw new Error('Quantidade solicitada fora de estoque')
       }
@@ -111,8 +115,9 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
       })
 
       setCart(updatedCart)
+      localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCart))
     } catch(err) {
-      toast.error(err.message)
+      toast.error(err.message || 'Erro na alteração de quantidade do produto')
     }
   };
 
