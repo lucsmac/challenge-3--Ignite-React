@@ -3,7 +3,6 @@ import { MdAddShoppingCart } from 'react-icons/md';
 import { ProductList } from './styles';
 import { useProducts } from '../../hooks/useProducts';
 import { useCart } from '../../hooks/useCart';
-import { useEffect, useState } from 'react';
 
 interface CartItemsAmount {
   [key: number]: number;
@@ -13,16 +12,12 @@ const Home = (): JSX.Element => {
   const products = useProducts()
   const { addProduct, cart } = useCart();
 
-  const [cartItemsAmount, setCartItemsAmount] = useState({} as CartItemsAmount)
-
-  useEffect(() => {
-    setCartItemsAmount(cart.reduce((sumAmount, product) => {
+  const cartItemsAmount = cart.reduce((sumAmount, product) => {
       return {
         ...sumAmount,
         [product.id]: product.amount
       }
-    }, {} as CartItemsAmount))
-  }, [cart])
+    }, {} as CartItemsAmount)
 
   function handleAddProduct(id: number) {
     addProduct(id)
