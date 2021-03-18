@@ -34,6 +34,10 @@ const Cart = (): JSX.Element => {
     }, 0)
   )
 
+  const subtotal = (product: Product) => {
+    return formatPrice(product.amount * product.price)
+  }
+
   function handleProductIncrement(product: Product) {
     updateProductAmount({
       productId: product.id,
@@ -100,7 +104,7 @@ const Cart = (): JSX.Element => {
                 </div>
               </td>
               <td>
-                <strong>{formatPrice(product.amount * product.price)}</strong>
+                <strong>{subtotal}</strong>
               </td>
               <td>
                 <button
