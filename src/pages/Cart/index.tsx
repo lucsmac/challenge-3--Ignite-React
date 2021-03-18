@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   MdDelete,
   MdAddCircleOutline,
@@ -33,10 +32,6 @@ const Cart = (): JSX.Element => {
       return sumTotal + product.price * product.amount
     }, 0)
   )
-
-  const subtotal = (product: Product) => {
-    return formatPrice(product.amount * product.price)
-  }
 
   function handleProductIncrement(product: Product) {
     updateProductAmount({
@@ -104,7 +99,7 @@ const Cart = (): JSX.Element => {
                 </div>
               </td>
               <td>
-                <strong>{() => subtotal(product)}</strong>
+                <strong>{formatPrice(product.amount * product.price)}</strong>
               </td>
               <td>
                 <button
