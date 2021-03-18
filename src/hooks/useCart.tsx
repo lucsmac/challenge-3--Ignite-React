@@ -60,13 +60,13 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
   };
 
   const removeProduct = (productId: number) => {
-    // try {
-    //   const updatedCart = cart.filter(product => product.id !== productId)
+    try {
+      const updatedCart = cart.filter(product => product.id !== productId)
 
-    //   setCart(updatedCart)
-    // } catch {
-    //   toast.error('Erro na remoção do produto');
-    // }
+      setCart(updatedCart)
+    } catch {
+      toast.error('Erro na remoção do produto');
+    }
   };
 
   const updateProductAmount = async ({
