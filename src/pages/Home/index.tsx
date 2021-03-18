@@ -16,10 +16,10 @@ const Home = (): JSX.Element => {
   const [cartItemsAmount, setCartItemsAmount] = useState({} as CartItemsAmount)
 
   useEffect(() => {
-    setCartItemsAmount(cart.reduce((sumAmount, { id }) => {
+    setCartItemsAmount(cart.reduce((sumAmount, product) => {
       return {
         ...sumAmount,
-        [id]: sumAmount[id] ? sumAmount[id] + 1 : 1
+        [product.id]: product.amount
       }
     }, {} as CartItemsAmount))
   }, [cart])
