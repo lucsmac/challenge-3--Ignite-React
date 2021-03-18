@@ -57,7 +57,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
       const amount = productOnCart ? productOnCart.amount + 1 : 1
 
-      if (amount > stock[productId].amount) {
+      if (amount > stock[productId - 1].amount) {
         throw new Error('Quantidade solicitada fora de estoque')
       }
       
@@ -99,7 +99,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
         throw new Error('Erro na alteração de quantidade do produto')
       }
 
-      if (amount > stock[productId].amount) {
+      if (amount > stock[productId - 1].amount) {
         throw new Error('Quantidade solicitada fora de estoque')
       }
 
