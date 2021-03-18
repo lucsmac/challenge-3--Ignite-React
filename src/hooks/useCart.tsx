@@ -74,9 +74,20 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     amount,
   }: UpdateProductAmount) => {
     try {
-      // TODO
+      const updatedCart = cart.map(product => {
+        if (product.id === productId) {
+          return {
+            ...product,
+            amount
+          }
+        }
+
+        return product
+      })
+
+      setCart(updatedCart)
     } catch {
-      // TODO
+      toast('Erro na alteração de quantidade do produto')
     }
   };
 
